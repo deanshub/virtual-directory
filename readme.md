@@ -21,7 +21,7 @@ create `.virtualdirectory` file in the requested directory in the correct format
 /src/directory
 /src/directory/exclusion/1
 /src/directory/exclusion/2
-/src/directory/exclusion/3
+/src/directory/exclusion/3 -> /different/src/directory/3
 /src/directory/very/very/very/deep/exclusion
 ```
 
