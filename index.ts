@@ -1,6 +1,14 @@
 import {configFileExists, parseConfigFile} from './lib/configurations'
 import {cleanDir, createRealDirectories, createLinkedDirectory} from './lib/fileSystem'
 
+
+// get source dir
+// get exclusions
+// generate directories for exclusions
+// walk through source dir
+//      if exists, don't do anything and recursive in
+//      if not, link
+
 (async function(){
     if (configFileExists()) {
         const config = parseConfigFile()
@@ -9,11 +17,3 @@ import {cleanDir, createRealDirectories, createLinkedDirectory} from './lib/file
         await createLinkedDirectory(config)
     }
 })()
-
-
-// get source dir
-// get exclusions
-// generate directories for exclusions
-// walk through source dir
-//      if exists, don't do anything and recursive in
-//      if not, link
