@@ -1,0 +1,36 @@
+{
+  "name": "virtual-directory",
+  "version": "1.0.0",
+  "description": "virtual directory",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "watch": "tsc -b --watch .",
+    "start": "node dist/index.js"
+  },
+  "bin": {
+    "virtual-directory": "./dist/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deanshub/virtual-directory.git"
+  },
+  "keywords": [],
+  "author": "Dean Shub",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/deanshub/virtual-directory/issues"
+  },
+  "homepage": "https://github.com/deanshub/virtual-directory#readme",
+  "devDependencies": {
+    "@types/fs-extra": "^8.0.1",
+    "@types/rimraf": "^2.0.3",
+    "jest": "^24.9.0",
+    "prettier": "^1.19.1",
+    "typescript": "^3.7.3"
+  },
+  "dependencies": {
+    "fs-extra": "^8.1.0",
+    "rimraf": "^3.0.0"
+  }
+}
