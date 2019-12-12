@@ -7,21 +7,19 @@ import rimraf from 'rimraf'
 import chokidar from 'chokidar'
 
 export async function cleanDir(config: Configuration) {
-    if (configFileExists()) {
-        const paths = await fs.readdir(config.dest)
+    const paths = await fs.readdir(config.dest)
+    console.warn('We\'re going to delete this directory!');
+    await new Promise(resolve=>setTimeout(resolve, 3000))
 
-        console.warn('We\'re going to delete this directory!');
-        await new Promise(resolve=>setTimeout(resolve, 3000))
-
-        return Promise.all(
-            paths
-                .filter(p=>p!==FileNames.CONFIG)
-                .map(
-                    p=>new Promise((resolve, reject)=>rimraf(p,(err)=>err ? reject(err) : resolve(p)))
-                    //p=>Promise.resolve(rimraf.sync(p))
+    return Promise.all(
+        paths
+            .filter(p=>p!==FileNames.CONFIG)
+            .map(
+                p=>new Promise((resolve, reject) => 
+                    rimraf(path.join(config.dest, p), (err)=>err ? reject(err) : resolve(p))
                 )
-        )
-    }
+            )
+    )
 }
 
 export async function createRealDirectories(config: Configuration) {
