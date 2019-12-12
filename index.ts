@@ -1,42 +1,19 @@
 #!/usr/bin/env node
 
-import { program } from '@soundtype/commander'
+import program from 'commander'
 import {configFileExists, parseConfigFile, parseCliConfig} from './lib/configurations'
 import {cleanDir, createRealDirectories, createLinkedDirectory, watcher} from './lib/fileSystem'
 import manifest from './package.json'
 
-const prog = program(manifest.name, manifest.version)
-    .option({
-        name: 'src',
-        shorthand: 's',
-        description: 'source directory',
-        default: '',
-        parse: x=>x,
-    })
-    .option({
-        name: 'dest',
-        shorthand: 'd',
-        description:'destination directory (virtual)',
-        default: '',
-        parse: x=>x,
-    })
-    .option({
-        name: 'exclusions',
-        shorthand: 'e',
-        description: 'list of exclusions from the virtual directory',
-        default: '',
-        parse: x=>x,
-    })
-    .option({
-        name: 'watch',
-        shorthand: 'w',
-        description: 'watch mode',
-        default: false,
-    })
-    .build()
-    
-const args = prog.parse(process.argv)
-let config = parseCliConfig(args)
+program
+    .version(manifest.version)
+    .option('-s, --src <path>', 'source directory')
+    .option('-d, --dest <path>', 'destination directory (virtual)')
+    .option('-e, --exclusions <paths>', 'list of exclusions from the virtual directory')
+    .option('-w, --watch', 'watch mode')
+    .parse(process.argv)
+
+let config = parseCliConfig(program)
 
 ;(async function(){
     if (configFileExists()) {
@@ -45,7 +22,7 @@ let config = parseCliConfig(args)
     await cleanDir(config)
     await createRealDirectories(config)
     await createLinkedDirectory(config)
-    if (args.watch) {
+    if (program.watch) {
         console.log('watch mode on')
         watcher(config)
     }

@@ -286,11 +286,6 @@
     "@types/istanbul-reports" "^1.1.1"
     "@types/yargs" "^13.0.0"
 
-"@soundtype/commander@^0.1.0":
-  version "0.1.0"
-  resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/@soundtype/commander/-/commander-0.1.0.tgz#8fd2357579ee4ca98dc48ee936d5ac395b5b74e3"
-  integrity sha1-j9I1dXnuTKmNxI7pNtWsOVtbdOM=
-
 "@types/babel__core@^7.1.0":
   version "7.1.3"
   resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/@types/babel__core/-/babel__core-7.1.3.tgz#e441ea7df63cd080dfcd02ab199e6d16a735fc30"
@@ -330,6 +325,13 @@
   integrity sha1-Ejq3ldum2JvgS/B25q7K+GINtnQ=
   dependencies:
     chokidar "*"
+
+"@types/commander@^2.12.2":
+  version "2.12.2"
+  resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/@types/commander/-/commander-2.12.2.tgz#183041a23842d4281478fa5d23c5ca78e6fd08ae"
+  integrity sha1-GDBBojhC1CgUePpdI8XKeOb9CK4=
+  dependencies:
+    commander "*"
 
 "@types/events@*":
   version "3.0.0"
@@ -827,6 +829,11 @@ combined-stream@^1.0.6, combined-stream@~1.0.6:
   integrity sha1-w9RaizT9cwYxoRCoolIGgrMdWn8=
   dependencies:
     delayed-stream "~1.0.0"
+
+commander@*, commander@^4.0.1:
+  version "4.0.1"
+  resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/commander/-/commander-4.0.1.tgz#b67622721785993182e807f4883633e6401ba53c"
+  integrity sha1-tnYicheFmTGC6Af0iDYz5kAbpTw=
 
 commander@~2.20.3:
   version "2.20.3"
