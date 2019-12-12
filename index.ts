@@ -36,13 +36,6 @@ const prog = program(manifest.name, manifest.version)
 const args = prog.parse(process.argv)
 let config = parseCliConfig(args)
 
-// get source dir
-// get exclusions
-// generate directories for exclusions
-// walk through source dir
-//      if exists, don't do anything and recursive in
-//      if not, link
-
 ;(async function(){
     if (configFileExists()) {
         config = parseConfigFile()
