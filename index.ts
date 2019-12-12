@@ -9,7 +9,7 @@ program
     .version(manifest.version)
     .option('-s, --src <path>', 'source directory')
     .option('-d, --dest <path>', 'destination directory (virtual)')
-    .option('-e, --exclusions <paths>', 'list of exclusions from the virtual directory')
+    .option('-e, --exclusions <paths>', 'list of exclusions from the virtual directory','')
     .option('-w, --watch', 'watch mode')
     .parse(process.argv)
 
