@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import { program } from '@soundtype/commander'
 import {configFileExists, parseConfigFile, parseCliConfig} from './lib/configurations'
 import {cleanDir, createRealDirectories, createLinkedDirectory, watcher} from './lib/fileSystem'
