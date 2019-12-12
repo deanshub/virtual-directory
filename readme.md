@@ -11,7 +11,7 @@ output
   
 
 ## cli usage
-`virtual-directory virtual-project my-project node_modules/execa node_modules/express`
+`virtual-directory --dest virtual-project --src my-project --exclusions node_modules/execa node_modules/express`
 
 ## .virtualdirectory usage
 create `.virtualdirectory` file in the requested directory in the correct format and just insert the command `virtual-directory`

@@ -4,7 +4,7 @@ import {Configuration} from '../types'
 import {configFileExists} from './configurations'
 import {FileNames} from './constants'
 import rimraf from 'rimraf'
-
+import chokidar from 'chokidar'
 
 export async function cleanDir(config: Configuration) {
     if (configFileExists()) {
@@ -18,6 +18,7 @@ export async function cleanDir(config: Configuration) {
                 .filter(p=>p!==FileNames.CONFIG)
                 .map(
                     p=>new Promise((resolve, reject)=>rimraf(p,(err)=>err ? reject(err) : resolve(p)))
+                    //p=>Promise.resolve(rimraf.sync(p))
                 )
         )
     }
@@ -55,3 +56,22 @@ export async function createLinkedDirectory(config: Configuration) {
     return deepSymlink('.', config)
 }
 
+export function watcher(config: Configuration) {
+    chokidar
+        .watch('.', {cwd:config.src, ignoreInitial: true})
+        .on('add', async (relPath: string) => {
+            if (!config.exclusions.includes(relPath)){
+                const destPath = path.join(config.dest, relPath)
+                try{
+                    await fs.lstat(destPath)
+                }catch(e) {
+                    //console.log(path.join(config.src, relPath),destPath);
+                    return fs.symlink(path.join(config.src, relPath), destPath)
+                }
+                return deepSymlink(relPath, config)
+            }
+        })
+        .on('unlink', (relPath: string) => {
+            rimraf(path.join(config.dest, relPath),console.error)
+        })
+}

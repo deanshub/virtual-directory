@@ -1,6 +1,6 @@
 import { program } from '@soundtype/commander'
 import {configFileExists, parseConfigFile, parseCliConfig} from './lib/configurations'
-import {cleanDir, createRealDirectories, createLinkedDirectory} from './lib/fileSystem'
+import {cleanDir, createRealDirectories, createLinkedDirectory, watcher} from './lib/fileSystem'
 import manifest from './package.json'
 
 const prog = program(manifest.name, manifest.version)
@@ -25,6 +25,12 @@ const prog = program(manifest.name, manifest.version)
         default: '',
         parse: x=>x,
     })
+    .option({
+        name: 'watch',
+        shorthand: 'w',
+        description: 'watch mode',
+        default: false,
+    })
     .build()
     
 const args = prog.parse(process.argv)
@@ -44,4 +50,8 @@ let config = parseCliConfig(args)
     await cleanDir(config)
     await createRealDirectories(config)
     await createLinkedDirectory(config)
+    if (args.watch) {
+        console.log('watch mode on')
+        watcher(config)
+    }
 })()
