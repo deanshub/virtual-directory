@@ -42,7 +42,7 @@ async function deepSymlink(dir: string, config: Configuration) {
             try{
                 await fs.lstat(destPath)
             }catch(e) {
-                console.log(destPath);
+                //console.log(path.join(config.src, relPath),destPath);
                 return fs.symlink(path.join(config.src, relPath), destPath)
             }
             return deepSymlink(relPath, config)
@@ -53,18 +53,5 @@ async function deepSymlink(dir: string, config: Configuration) {
 
 export async function createLinkedDirectory(config: Configuration) {
     return deepSymlink('.', config)
-    // const paths = await fs.readdir(config.src)
-    // const promises = paths.map(async p=>{
-    //     // if not in exclusion and doesn't exists in the dest dir link it
-    //     if (!config.exclusions.includes(p)){
-    //         const destPath = path.join(config.dest, p)
-    //         const stat = await fs.lstat(destPath)
-    //         if (!stat.isDirectory()) {
-    //             return fs.symlink(p, destPath)
-    //         }else {
-    //             return deepSymlink(p)
-    //         }
-    //     }
-    // })
 }
 

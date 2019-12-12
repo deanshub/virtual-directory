@@ -1,6 +1,34 @@
-import {configFileExists, parseConfigFile} from './lib/configurations'
+import { program } from '@soundtype/commander'
+import {configFileExists, parseConfigFile, parseCliConfig} from './lib/configurations'
 import {cleanDir, createRealDirectories, createLinkedDirectory} from './lib/fileSystem'
+import manifest from './package.json'
 
+const prog = program(manifest.name, manifest.version)
+    .option({
+        name: 'src',
+        shorthand: 's',
+        description: 'source directory',
+        default: '',
+        parse: x=>x,
+    })
+    .option({
+        name: 'dest',
+        shorthand: 'd',
+        description:'destination directory (virtual)',
+        default: '',
+        parse: x=>x,
+    })
+    .option({
+        name: 'exclusions',
+        shorthand: 'e',
+        description: 'list of exclusions from the virtual directory',
+        default: '',
+        parse: x=>x,
+    })
+    .build()
+    
+const args = prog.parse(process.argv)
+let config = parseCliConfig(args)
 
 // get source dir
 // get exclusions
@@ -9,11 +37,11 @@ import {cleanDir, createRealDirectories, createLinkedDirectory} from './lib/file
 //      if exists, don't do anything and recursive in
 //      if not, link
 
-(async function(){
+;(async function(){
     if (configFileExists()) {
-        const config = parseConfigFile()
-        await cleanDir(config)
-        await createRealDirectories(config)
-        await createLinkedDirectory(config)
+        config = parseConfigFile()
     }
+    await cleanDir(config)
+    await createRealDirectories(config)
+    await createLinkedDirectory(config)
 })()

@@ -16,3 +16,7 @@ export function parseConfigFile(): Configuration {
     const dest = process.cwd()
     return {src, dest, exclusions: paths.map(p=>path.relative(src, p))}
 }
+
+export function parseCliConfig(args): Configuration {
+    return {src: path.resolve(args.src), dest: path.resolve(args.dest), exclusions: args.exclusions.split(' ')}
+}

@@ -30,6 +30,7 @@
     "typescript": "^3.7.3"
   },
   "dependencies": {
+    "@soundtype/commander": "^0.1.0",
     "fs-extra": "^8.1.0",
     "rimraf": "^3.0.0"
   }
