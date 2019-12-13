@@ -1,14 +1,15 @@
 import fs from 'fs-extra'
 import path from 'path'
+import rimraf from 'rimraf'
+import chokidar from 'chokidar'
+import chalk from 'chalk'
 import {Configuration} from '../types'
 import {configFileExists} from './configurations'
 import {FileNames} from './constants'
-import rimraf from 'rimraf'
-import chokidar from 'chokidar'
 
 export async function cleanDir(config: Configuration) {
     const paths = await fs.readdir(config.dest)
-    console.warn('We\'re going to delete this directory!');
+    console.warn(chalk.yellow('Warning, this directory is going to be deleted!'))
     await new Promise(resolve=>setTimeout(resolve, 3000))
 
     return Promise.all(

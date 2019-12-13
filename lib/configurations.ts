@@ -12,9 +12,10 @@ export function configFileExists(): boolean {
 function parseExclusions(src: string, exclusions: Array<string>): Array<string> {
     return exclusions.map(p=>{
         if (p.includes('=>')){
+            // TODO implement the exclusion ref
             return p.split('=>')[0]
         }else{
-            return path.relative(src, p)
+            return src && path.relative(src, p)
         }
     })
 }
@@ -28,11 +29,21 @@ export function parseConfigFile(): Configuration {
 }
 
 export function parseCliConfig(args): Configuration {
-    const src = path.resolve(args.src)
-    const dest = path.resolve(args.dest)
+    const src = args.cli && path.resolve(args.src)
+    const dest = args.dest && path.resolve(args.dest)
     return {
         src,
         dest,
         exclusions: parseExclusions(src, args.exclusions.split(' '))
     }
+}
+
+export function validate(config: Configuration) {
+    if (!config.src) {
+        throw new Error('src directory must be defined. Please see --help')
+    } 
+    if (!config.dest) {
+        throw new Error('dest directory must be defined. Please see --help')
+    }
+
 }
