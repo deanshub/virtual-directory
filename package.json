@@ -2,15 +2,17 @@
   "name": "virtual-directory",
   "version": "1.0.5",
   "description": "virtual directory",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "test": "jest",
     "watch": "tsc -b --watch .",
     "start": "node dist/index.js"
   },
   "bin": {
-    "virtual-directory": "./dist/index.js"
+    "virtual-directory": "./dist/lib/cli.js"
   },
+  "files": ["dist/**/*"],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/deanshub/virtual-directory.git"

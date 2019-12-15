@@ -12,9 +12,10 @@
     "jsx": "react",
     "lib": ["esnext"]
   },
+  "files": [
+      "index.ts"
+  ],
   "include": [
-    "./*.ts",
-    "./lib/**/*.ts",
     "./test/**/*.ts"
   ]
 }

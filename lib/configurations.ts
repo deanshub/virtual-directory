@@ -29,7 +29,7 @@ export function parseConfigFile(): Configuration {
 }
 
 export function parseCliConfig(args): Configuration {
-    const src = args.cli && path.resolve(args.src)
+    const src = args.src && path.resolve(args.src)
     const dest = args.dest && path.resolve(args.dest)
     return {
         src,
