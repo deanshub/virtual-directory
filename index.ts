@@ -13,6 +13,7 @@ program
     .option('-d, --dest <path>', 'destination directory (virtual)')
     .option('-e, --exclusions <paths>', 'list of exclusions from the virtual directory','')
     .option('-w, --watch', 'watch mode', false)
+    .option('--cleanup', 'deletes all symlinks once watc mode breaks', false)
     .parse(process.argv)
 
 let config = parseCliConfig(program)
@@ -27,8 +28,8 @@ if (configFileExists()) {
     await createRealDirectories(config)
     await createLinkedDirectory(config)
     if (program.watch) {
-        console.log(chalk.green('Watch mode on'))
-        watcher(config)
+        console.log(chalk.green(`Watch mode on${program.cleanup?' (with cleanup)':''}`))
+        watcher(config, program.cleanup)
     }
     } catch(e) {
         if (program.debug) {

@@ -7,10 +7,13 @@ import {Configuration} from '../types'
 import {configFileExists} from './configurations'
 import {FileNames} from './constants'
 
-export async function cleanDir(config: Configuration) {
+export async function cleanDir(config: Configuration, imidiate: boolean = false) {
     const paths = await fs.readdir(config.dest)
-    console.warn(chalk.yellow('Warning, this directory is going to be deleted!'))
-    await new Promise(resolve=>setTimeout(resolve, 3000))
+
+    if (!imidiate) {
+        console.warn(chalk.yellow('Warning, this directory is going to be deleted!'))
+        await new Promise(resolve=>setTimeout(resolve, 3000))
+    }
 
     return Promise.all(
         paths
@@ -55,7 +58,7 @@ export async function createLinkedDirectory(config: Configuration) {
     return deepSymlink('.', config)
 }
 
-export function watcher(config: Configuration) {
+export function watcher(config: Configuration, cleanup: boolean = false) {
     chokidar
         .watch('.', {cwd:config.src, ignoreInitial: true})
         .on('add', async (relPath: string) => {
@@ -73,4 +76,14 @@ export function watcher(config: Configuration) {
         .on('unlink', (relPath: string) => {
             rimraf(path.join(config.dest, relPath),console.error)
         })
+    
+    if (cleanup) {
+        [`exit`, `SIGINT`, `SIGUSR1`, `SIGUSR2`, `uncaughtException`, `SIGTERM`].forEach((eventType) => {
+            process.on(eventType as any, async () => {
+                console.log(chalk.yellow('cleaning up...'))
+                await cleanDir(config, true)
+                process.exit()
+            })
+        })
+    }
 }
