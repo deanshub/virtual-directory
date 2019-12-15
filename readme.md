@@ -14,11 +14,12 @@ output
 `virtual-directory --dest virtual-project --src my-project --exclusions "node_modules/execa node_modules/express"`
 
 ## .virtualdirectory usage
-create `.virtualdirectory` file in the requested directory in the correct format and just insert the command `virtual-directory`
+create `.virtualdirectory` file in the source directory in the correct format and just insert the command `virtual-directory`
 
 ### .virtualdirectory format
 ```
-/src/directory
+/dest/directory
+
 /src/directory/exclusion/1
 /src/directory/exclusion/2
 /src/directory/exclusion/3 -> /different/src/directory/3

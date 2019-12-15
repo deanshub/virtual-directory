@@ -6,7 +6,8 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "test": "jest",
-    "watch": "tsc -b --watch .",
+    "watch": "tsc --watch",
+    "clean-build": "rm -rf dist/",
     "start": "node dist/index.js"
   },
   "bin": {

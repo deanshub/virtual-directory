@@ -4,7 +4,6 @@ import rimraf from 'rimraf'
 import chokidar from 'chokidar'
 import chalk from 'chalk'
 import {Configuration} from '../types'
-import {configFileExists} from './configurations'
 import {FileNames} from './constants'
 
 export async function cleanDir(config: Configuration, imidiate: boolean = false) {
@@ -17,7 +16,6 @@ export async function cleanDir(config: Configuration, imidiate: boolean = false)
 
     return Promise.all(
         paths
-            .filter(p=>p!==FileNames.CONFIG)
             .map(
                 p=>new Promise((resolve, reject) => 
                     rimraf(path.join(config.dest, p), (err)=>err ? reject(err) : resolve(p))
@@ -30,14 +28,16 @@ export async function createRealDirectories(config: Configuration) {
     return Promise.all(config.exclusions.map(async (exclusion)=>{
         const realDir = path.relative(config.src, path.join(exclusion, '..'))
         if (realDir) {
-            await fs.ensureDir(realDir)
+            await fs.ensureDir(path.join(config.dest,realDir))
         }
     }))
 }
 
 async function deepSymlink(dir: string, config: Configuration) {
     const paths = await fs.readdir(path.join(config.src, dir))
-    const symlinks = paths.map(async p=>{
+    const symlinks = paths
+        .filter(p=>p!==FileNames.CONFIG)
+        .map(async p=>{
         // if not in exclusion and doesn't exists in the dest dir link it
         const relPath = path.join(dir, p)
         if (!config.exclusions.includes(relPath)){

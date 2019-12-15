@@ -1,4 +1,4 @@
-import {configFileExists, parseConfigFile, parseCliConfig, validate} from './lib/configurations'
+import {parseCliConfig, validate} from './lib/configurations'
 import {cleanDir, createRealDirectories, createLinkedDirectory, watcher} from './lib/fileSystem'
 
 async function virtualDirectory(src: string, dest: string, exclusions: Array<string> = [], watch: boolean = false, cleanup: boolean = false) {

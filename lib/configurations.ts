@@ -23,12 +23,12 @@ function parseExclusions(src: string, exclusions: Array<string>): Array<string> 
 export function parseConfigFile(): Configuration {
     const configurationFile = fs.readFileSync(configFilePath,{encoding: 'utf-8'})
     const paths = configurationFile.split('\n').filter(Boolean)
-    const src = path.resolve(paths.shift())
-    const dest = path.resolve(process.cwd())
+    const dest = path.resolve(paths.shift())
+    const src = path.resolve(process.cwd())
     return {src, dest, exclusions: parseExclusions(src, paths)}
 }
 
-export function parseCliConfig(args): Configuration {
+export function parseCliConfig(args: any): Configuration {
     const src = args.src && path.resolve(args.src)
     const dest = args.dest && path.resolve(args.dest)
     return {
