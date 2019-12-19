@@ -8,6 +8,8 @@
     "test": "jest",
     "watch": "tsc --watch",
     "clean-build": "rm -rf dist/",
+    "build": "tsc",
+    "release": "npm run clean-build && npm run build && npm version patch && git push && npm publish --registry=https://registry.npmjs.org/",
     "start": "node dist/index.js"
   },
   "bin": {
