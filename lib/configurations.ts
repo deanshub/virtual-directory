@@ -53,5 +53,4 @@ export function validate(config: Configuration) {
     if (!config.dest) {
         throw new Error('dest directory must be defined. Please see --help')
     }
-
 }

@@ -9,10 +9,9 @@ import {FileNames} from './constants'
 export async function cleanDir(config: Configuration, imidiate: boolean = false) {
     try{
         if (!imidiate) {
-            console.warn(chalk.yellow(`Warning, directory "${config.dest}" is going to be deleted!`))
+            console.warn(chalk.yellow(`Warning, directory "${config.dest}" is going to be overwritten!`))
             await new Promise(resolve=>setTimeout(resolve, 3000))
         }
-
         return rmrf(config.dest)
     } catch(e) {
         return e
@@ -20,11 +19,8 @@ export async function cleanDir(config: Configuration, imidiate: boolean = false)
 }
 
 export async function createRealDirectories(config: Configuration) {
-    return Promise.all(config.exclusions.map(async (exclusion)=>{
-        const realDir = path.relative(config.src, path.join(exclusion, '..'))
-        if (realDir) {
-            await fs.ensureDir(path.join(config.dest,realDir))
-        }
+    return Promise.all(config.exclusions.map((exclusion)=>{
+        return fs.ensureDir(path.join(config.dest, exclusion, '..'))
     }))
 }
 
