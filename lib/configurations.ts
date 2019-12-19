@@ -38,6 +38,14 @@ export function parseCliConfig(args: any): Configuration {
     }
 }
 
+export function parseNodeConfig(src: string, dest: string, exclusions: Array<string>): Configuration {
+    return {
+        src: src && path.resolve(src),
+        dest: dest && path.resolve(dest),
+        exclusions,
+    }
+}
+
 export function validate(config: Configuration) {
     if (!config.src) {
         throw new Error('src directory must be defined. Please see --help')

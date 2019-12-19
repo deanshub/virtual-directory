@@ -1,8 +1,8 @@
-import {parseCliConfig, validate} from './lib/configurations'
+import {parseNodeConfig, validate} from './lib/configurations'
 import {cleanDir, createRealDirectories, createLinkedDirectory, watcher, setupCleanup} from './lib/fileSystem'
 
 async function virtualDirectory(src: string, dest: string, exclusions: Array<string> = [], watch: boolean = false, cleanup: boolean = false) {
-    const config = parseCliConfig({src, dest, exclusions: exclusions.join(' ')})
+    const config = parseNodeConfig(src, dest, exclusions)
     validate(config)
     await cleanDir(config)
     await createRealDirectories(config)

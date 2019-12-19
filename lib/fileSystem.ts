@@ -9,7 +9,7 @@ import {FileNames} from './constants'
 export async function cleanDir(config: Configuration, imidiate: boolean = false) {
     try{
         if (!imidiate) {
-            console.warn(chalk.yellow('Warning, this directory is going to be deleted!'))
+            console.warn(chalk.yellow(`Warning, directory "${config.dest}" is going to be deleted!`))
             await new Promise(resolve=>setTimeout(resolve, 3000))
         }
 
@@ -33,19 +33,19 @@ async function deepSymlink(dir: string, config: Configuration) {
     const symlinks = paths
         .filter(p=>p!==FileNames.CONFIG)
         .map(async p=>{
-        // if not in exclusion and doesn't exists in the dest dir link it
-        const relPath = path.join(dir, p)
-        if (!config.exclusions.includes(relPath)){
-            const destPath = path.join(config.dest, relPath)
-            try{
-                await fs.lstat(destPath)
-            }catch(e) {
-                //console.log(path.join(config.src, relPath),destPath);
-                return fs.symlink(path.join(config.src, relPath), destPath)
+            // if not in exclusion and doesn't exists in the dest dir link it
+            const relPath = path.join(dir, p)
+            if (!config.exclusions.includes(relPath)){
+                const destPath = path.join(config.dest, relPath)
+                try{
+                    await fs.lstat(destPath)
+                }catch(e) {
+                    // console.log(path.join(config.src, relPath),destPath);
+                    return fs.ensureSymlink(path.join(config.src, relPath), destPath)
+                }
+                return deepSymlink(relPath, config)
             }
-            return deepSymlink(relPath, config)
-        }
-    })
+        })
     return Promise.all(symlinks)
 }
 
