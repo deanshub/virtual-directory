@@ -4,7 +4,7 @@ import program from 'commander'
 import chalk from 'chalk'
 import manifest from '../package.json'
 import {configFileExists, parseConfigFile, parseCliConfig, validate} from './configurations'
-import {cleanDir, createRealDirectories, createLinkedDirectory, watcher} from './fileSystem'
+import {cleanDir, createRealDirectories, createLinkedDirectory, watcher, setupCleanup} from './fileSystem'
 
 
 program
@@ -28,9 +28,13 @@ if (configFileExists()) {
         await cleanDir(config)
         await createRealDirectories(config)
         await createLinkedDirectory(config)
+        console.log(chalk.green(`virtual-directory linked directory to "${config.dest}", enjoy`))
+        if (program.cleanup) {
+            setupCleanup(config)
+        }
         if (program.watch) {
             console.log(chalk.green(`Watch mode on${program.cleanup?' (with cleanup)':''}`))
-            watcher(config, program.cleanup)
+            watcher(config)
         }
     } catch(e) {
         if (program.debug) {

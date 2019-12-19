@@ -1,27 +1,22 @@
 import fs from 'fs-extra'
 import path from 'path'
-import rimraf from 'rimraf'
+import rmrf from 'rmrf'
 import chokidar from 'chokidar'
 import chalk from 'chalk'
 import {Configuration} from '../types'
 import {FileNames} from './constants'
 
 export async function cleanDir(config: Configuration, imidiate: boolean = false) {
-    const paths = await fs.readdir(config.dest)
+    try{
+        if (!imidiate) {
+            console.warn(chalk.yellow('Warning, this directory is going to be deleted!'))
+            await new Promise(resolve=>setTimeout(resolve, 3000))
+        }
 
-    if (!imidiate) {
-        console.warn(chalk.yellow('Warning, this directory is going to be deleted!'))
-        await new Promise(resolve=>setTimeout(resolve, 3000))
+        return rmrf(config.dest)
+    } catch(e) {
+        return e
     }
-
-    return Promise.all(
-        paths
-            .map(
-                p=>new Promise((resolve, reject) => 
-                    rimraf(path.join(config.dest, p), (err)=>err ? reject(err) : resolve(p))
-                )
-            )
-    )
 }
 
 export async function createRealDirectories(config: Configuration) {
@@ -58,7 +53,7 @@ export async function createLinkedDirectory(config: Configuration) {
     return deepSymlink('.', config)
 }
 
-export function watcher(config: Configuration, cleanup: boolean = false) {
+export function watcher(config: Configuration) {
     chokidar
         .watch('.', {cwd:config.src, ignoreInitial: true})
         .on('add', async (relPath: string) => {
@@ -74,16 +69,17 @@ export function watcher(config: Configuration, cleanup: boolean = false) {
             }
         })
         .on('unlink', (relPath: string) => {
-            rimraf(path.join(config.dest, relPath),console.error)
+            rmrf(path.join(config.dest, relPath))
         })
-    
-    if (cleanup) {
-        [`exit`, `SIGINT`, `SIGUSR1`, `SIGUSR2`, `uncaughtException`, `SIGTERM`].forEach((eventType) => {
-            process.on(eventType as any, async () => {
-                console.log(chalk.yellow('cleaning up...'))
-                await cleanDir(config, true)
-                process.exit()
-            })
+
+}
+
+export function setupCleanup(config: Configuration) {
+    [`exit`, `SIGINT`, `SIGUSR1`, `SIGUSR2`, `uncaughtException`, `SIGTERM`].forEach((eventType) => {
+        process.on(eventType as any, async () => {
+            console.log(chalk.yellow('cleaning up...'))
+            await cleanDir(config, true)
+            process.exit()
         })
-    }
+    })
 }
