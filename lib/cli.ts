@@ -2,10 +2,10 @@
 
 import program from 'commander'
 import chalk from 'chalk'
-import manifest from '../package.json'
 import {configFileExists, parseConfigFile, parseCliConfig, validate} from './configurations'
 import {cleanDir, createRealDirectories, createLinkedDirectory, watcher, setupCleanup} from './fileSystem'
 
+const manifest = require('../package.json')
 
 program
     .version(manifest.version)
