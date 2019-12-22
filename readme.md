@@ -13,8 +13,8 @@ output
 ## cli usage
 `virtual-directory --dest virtual-project --src my-project --exclusions "node_modules/execa node_modules/express"`
 
-## .virtualdirectory usage
-create `.virtualdirectory` file in the source directory in the correct format and just insert the command `virtual-directory`
+## `.virtualdirectory` file usage
+create `.virtualdirectory` file in the source directory in the correct format and just run the command `virtual-directory` from that directory
 
 ### .virtualdirectory format
 ```
@@ -24,6 +24,17 @@ create `.virtualdirectory` file in the source directory in the correct format an
 /src/directory/exclusion/2
 /src/directory/exclusion/3 -> /different/src/directory/3
 /src/directory/very/very/very/deep/exclusion
+```
+
+## node api usage
+```ts
+import virtualDirectory from 'virtual-directory'
+
+await virtualDirectory(
+    'src/directory/',
+    'dest/directory',
+    ['node_modules/@types/react', 'node_modules/@types/react-dom'],
+)
 ```
 
 ## watch mode
