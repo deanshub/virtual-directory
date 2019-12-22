@@ -9,8 +9,11 @@ import {FileNames} from './constants'
 export async function cleanDir(config: Configuration, imidiate: boolean = false) {
     try{
         if (!imidiate) {
-            console.warn(chalk.yellow(`Warning, directory "${config.dest}" is going to be overwritten!`))
-            await new Promise(resolve=>setTimeout(resolve, 3000))
+            const destDirExists = await fs.pathExists(config.dest)
+            if (destDirExists) {
+                console.warn(chalk.yellow(`Warning, directory "${config.dest}" is going to be overwritten!`))
+                await new Promise(resolve=>setTimeout(resolve, 3000))
+            }
         }
         return rmrf(config.dest)
     } catch(e) {
