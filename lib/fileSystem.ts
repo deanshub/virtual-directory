@@ -28,9 +28,11 @@ export async function createRealDirectories(config: Configuration) {
 }
 
 async function deepSymlink(dir: string, config: Configuration) {
+    if (config.exclusions.length===0) {
+        return fs.ensureSymlink(path.join(config.src, dir), path.join(config.dest, dir))
+    }
     const paths = await fs.readdir(path.join(config.src, dir))
     const symlinks = paths
-        .filter(p=>p!==FileNames.CONFIG)
         .map(async p=>{
             // if not in exclusion and doesn't exists in the dest dir link it
             const relPath = path.join(dir, p)
