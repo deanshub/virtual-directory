@@ -1,5 +1,5 @@
-export interface Configuration {
-    src: string;
-    dest: string;
-    exclusions: Array<string>;
-}
+export interface Configuration {
+  src: string
+  dest: string
+  exclusions: Array<string>
+}

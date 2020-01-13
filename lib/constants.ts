@@ -1,3 +1,3 @@
 export enum FileNames {
-    CONFIG = '.virtualdirectory',
+  CONFIG = '.virtualdirectory',
 }

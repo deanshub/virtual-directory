@@ -1,12 +1,12 @@
 import fs from 'fs-extra'
 import path from 'path'
-import util from 'util'
+import util from 'util'
 import chokidar from 'chokidar'
 import chalk from 'chalk'
 import { Configuration } from '../types'
-import rimraf from 'rimraf'
-
-const rmrf = util.promisify(rimraf)
+import rimraf from 'rimraf'
+
+const rmrf = util.promisify(rimraf)
 
 export async function cleanDir(
   config: Configuration,
